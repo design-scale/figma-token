@@ -12,19 +12,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
     - name: Install Node Dependencies
       run: npm install style-dictionary
+
     - name: Build Style Dictionary
       run: npm run build
-    - name: Commit Generated style-dictionary
-      id: "auto-commit-action"
+
     - name: Commit and Push Changes
-  run: |
-    git config --local user.name "github-actions[bot]"
-    git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    git add .
-    git commit -m "Update design tokens"
-    git push origin main
-  env:
-    GH_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}
+      run: |
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "Update design tokens"
+        git push origin main
+      env:
+        GH_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}
