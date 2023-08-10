@@ -21,8 +21,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Delete Build Folder
+        run: rm -rf build  # Remove a pasta "build"
+
+      - name: Install Style Dictionary
+        run: npm install style-dictionary  # Instala o Style Dictionary
+
       - name: Run Style Dictionary Build
-        run: style-dictionary build  # Substitua pelo comando real do Style Dictionary
+        run: npx style-dictionary build  # Execute o comando do Style Dictionary
 
       - name: Run other necessary steps
         run: |
