@@ -4,32 +4,23 @@ on:
   push:
     paths:
       - 'tokens/tokens.json'
+  pull_request:
+    paths:
+      - 'tokens/tokens.json'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.14.0'  # Especifique a versão do Node.js que você precisa
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Delete Build Folder
-        run: rm -rf build  # Remove a pasta "build"
-
-      - name: Install Style Dictionary
-        run: npm install style-dictionary  # Instala o Style Dictionary
-
-      - name: Run Style Dictionary Build
-        run: npx style-dictionary build  # Execute o comando do Style Dictionary
-
-      - name: Run other necessary steps
-        run: |
-          # Aqui você pode adicionar outras etapas necessárias após a construção do Style Dictionary
+    - uses: actions/checkout@v3
+    - name: Install Node Dependencies
+      run: npm install style-dictionary
+    - name: Build Style Dictionary
+      run: npm run build
+    - name: Commit Generated style-dictionary
+      id: "auto-commit-action"
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Update design tokens
+        branch: main
