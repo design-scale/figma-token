@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Run Style Dictionary Build
-        run: npm run style-dictionary build  # Substitua pelo comando real do Style Dictionary
+        run: style-dictionary build  # Substitua pelo comando real do Style Dictionary
 
       - name: Run other necessary steps
         run: |
