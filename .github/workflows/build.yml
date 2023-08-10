@@ -1,24 +1,27 @@
-name: Test
+name: Build Style Dictionary on Tokens Change
 
 on:
+  push:
+    paths:
+      - 'tokens/tokens.json'
   pull_request:
-    branches: [ "main" ]
+    paths:
+      - 'tokens/tokens.json'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+    - uses: actions/checkout@v3
+    - name: Install Node Dependencies
+      run: npm install style-dictionary
+    - name: Build Style Dictionary
+      run: npm run build
+    - name: Commit Generated style-dictionary
+      id: "auto-commit-action"
+      uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
-  
+        commit_message: Update design tokens
+        branch: main
+      
