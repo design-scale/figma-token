@@ -12,6 +12,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+      permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+
     steps:
     - uses: actions/checkout@v3
     - name: Install Node Dependencies
@@ -24,3 +29,5 @@ jobs:
       with:
         commit_message: Update design tokens
         branch: main
+      env:
+          GH_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}  # Use the secret you created
