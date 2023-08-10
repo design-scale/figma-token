@@ -1,0 +1,25 @@
+name: Build on Tokens Change
+
+on:
+  push:
+    paths:
+      - 'tokens/tokens.json'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.14.0'  # Especifique a versão do Node.js que você precisa
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Build
+        run: npm run build
